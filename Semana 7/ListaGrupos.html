@@ -22,7 +22,9 @@
         <a class="nav-link active" href="Inicio.html" aria-current="page">Inicio</a>
         <a class="nav-link" href="listar.html">Lista de Cursos</a>
         <a class="nav-link" href="listaProfes.html">Lista de Profes</a>
+        <a class="nav-link" href="listaEstudiantes.html">Lista de Estudiantes</a>
         <a class="nav-link" href="ListaGrupos.html">Lista de Grupos</a>
+        <a class="nav-link" href="listaUsuarios.html">Lista de Usuarios</a>
         
     </nav>
     <div class="table-responsive">
@@ -66,7 +68,7 @@
 
     function cargarDatos(){
         // alert('Cargue datos');
-        fetch("https://paginas-web-cr.com/ApiPHP/apis/ListaCurso.php")//url de peticion de dATOS
+        fetch("https://paginas-web-cr.com/ApiPHP/apis/ListaGrupo.php")//url de peticion de dATOS
         .then(respuesta => respuesta.json())//respuesta recibe los datps en formato json 
         .then((datosrespuesta) => {
             setTable(datosrespuesta.data)//lo envio para la funcion para darle tratamiento a los datos
