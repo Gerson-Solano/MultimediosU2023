@@ -72,6 +72,7 @@
             <div class="modal-body">
               <form id="formulario">
                 <div class="mb-3">
+                  <input type="hidden" id="id" name="id">
                   <label for="" class="form-label">Nombre</label>
                   <input type="text" class="form-control" name="nombre" id="nombre" aria-describedby="helpId"
                     placeholder="Ingresa el nombre del curso">
@@ -89,15 +90,14 @@
                     placeholder="Ingresa el Tiempo del curso">
                   <small id="helpId" class="form-text text-muted">Tiempo aca</small>
                 </div>
-                <!-- <div class="mb-3">
-                      <button type="reset" class="btn btn-danger">Limpiar</button>
-                      <button type="submit" class="btn btn-primary">Guardar</button>
-                  </div> -->
+                <div class="mb-3">
+                  <button type="reset" class="btn btn-danger">Limpiar</button>
+                  <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save</button>
             </div>
           </div>
         </div>
@@ -140,41 +140,83 @@
         })
         .catch(console.log)//muestra error         
     }
-    function Eliminar() {
-      alert('Eliminar');
+    function Eliminar(id) {
+      alert('Eliminar ' + id);
+      var datosenviar = {
+        id: id
+      }
+      // console.log(datosenviar);
+      fetch("https://paginas-web-cr.com/ApiPHP/apis/BorrarCursos.php",
+        {
+          method: "POST",
+          body: JSON.stringify(datosenviar)
+        })//url de peticion de datos
+        .then(respuesta => respuesta.json())//recibe los datos en formato json
+        .then((datosrepuesta) => {
+          alert(datosrepuesta.data)
+          console.log('Datos', datosrepuesta)//Muestra el resultado de la peticion
+        })
+        .catch(console.log)//muestra errores
 
     }
+
+    var formulario = document.getElementById('formulario');
+
+    formulario.addEventListener('submit', function (e) {
+      alert('Salvando');
+      e.preventDefault();
+      var id = document.getElementById('id').value;
+      var nombre = document.getElementById('nombre').value;
+      var descripcion = document.getElementById('descripcion').value;
+      var tiempo = document.getElementById('tiempo').value;
+
+      var datosenviar = {
+        id: id,
+        nombre: nombre,
+        descripcion: descripcion,
+        tiempo: tiempo,
+        usuario: "Profe 007"
+      }
+      console.log(datosenviar);
+      fetch("https://paginas-web-cr.com/ApiPHP/apis/ActualizarCursos.php", //url de peticion de datos
+        {
+          method: 'POST',
+          body: JSON.stringify(datosenviar)//Se envia una arreglo con los datos 
+        }
+      ).then(respuesta => respuesta.json())
+        .then((datosrespuesta) => {
+          window.location = 'listar.html'
+          console.log('Datos', datosrespuesta);
+        }
+        ).catch(console.log);
+    });
+
+
     function Editar(id, nombre, descripcion, tiempo) {
       myModal.show();
+      document.getElementById('id').value = id;
       document.getElementById('nombre').value = nombre;
       document.getElementById('descripcion').value = descripcion;
       document.getElementById('tiempo').value = tiempo;
-
     }
     // fetch=solicitar, son peticiones
     // estamos creando objetos en memoria  
     function setTable(datos) {
-      console.log('datos', datos)
       // contenidoTablaResultado.innerHTML = 'test';
       for (const valor of datos) {
 
         //Editar(valor.nombre);
-        console.log('valor:', valor);
         contenidoTablaResultado.innerHTML += `
                          <tr class="table-primary" >
                              <td scope="row">${valor.id}</td>
                             <td>${valor.nombre}</td>
                             <td>${valor.descripcion}</td>
-                            <td>${valor.tiempo}</td>
-                            
-                            <td><button type="button" class="btn btn-danger" onclick="Eliminar()">Borrar</button>
-                             
+                            <td>${valor.tiempo}</td>                        
+                            <td><button type="button" class="btn btn-danger" onclick="Eliminar('${valor.id}')">Borrar</button>                           
                               ||
                               <button id="Edit" type="button" class="btn btn-primary" onclick="Editar('${valor.id}','${valor.nombre}','${valor.descripcion}','${valor.tiempo}')">Editar</button>
                             </td>                        
                         </tr>`;
-
-
       }
     }
 

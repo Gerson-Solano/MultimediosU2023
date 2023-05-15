@@ -48,8 +48,8 @@
                     <small id="helpId" class="form-text text-muted">Tiempo aca</small>
                 </div>
                 <div class="mb-3">
-                    <button type="reset" class="btn btn-danger">Limpiar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="reset" class="btn btn-danger">Reset</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </main>
@@ -69,13 +69,19 @@
     <script>
         var formulario = document.getElementById('formulario');
         formulario.addEventListener('submit', function (e) {
-            alert('Salvando');
             e.preventDefault();
+            alert('Salvando');
+            var nombre = document.getElementById('nombre').value;
+            var descripcion = document.getElementById('descripcion').value;
+            var tiempo = document.getElementById('tiempo').value;
+            console.log('Nombre: ', nombre);
+            alert('Nombre'+ nombre);
+            console.log('Nombre: ', nombre);
             var datosenviar = {
-                nombre: "React 22",
-                descripcion: "React Junior",
-                tiempo: "10 Meses",
-                usuario: "Gerson"
+                nombre: nombre,
+                descripcion: descripcion,
+                tiempo: tiempo,
+                usuario: "Profe 007"
             }
             console.log(datosenviar);
 
@@ -89,10 +95,6 @@
                     console.log('Datos', datosrespuesta);
                 }
                 ).catch(console.log);
-            console.log(formulario.da);
-            formulario.dataset();
-
-
         });    
     </script>
 </body>
